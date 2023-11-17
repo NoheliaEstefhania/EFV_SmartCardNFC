@@ -1,1 +1,1 @@
-!./caratula.png
+![Formal](caratula.png)
