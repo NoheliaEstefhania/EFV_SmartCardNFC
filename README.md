@@ -1,1 +1,1 @@
-!caratula.png
+./caratula.png
