@@ -27,13 +27,13 @@ operations
     Recharge(amount) ==
       (oldBalance := balance; 
       balance := balance + amount)
-    post balance = oldBalance + amount; -- R7
+    post balance = oldBalance + amount; -- R4
 
 --Pagos de pasajes
   public Purchase: () ==> () -- purchase
   Purchase() ==
     balance := balance - ticketPrice
-    pre ticketPrice <= balance; -- R6
+    pre ticketPrice <= balance; -- R3
 
 --Ver saldo
   public GetBalance: () ==> real
