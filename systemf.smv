@@ -1,0 +1,36 @@
+MODULE main
+VAR
+    state: {Inactivo, Activo, PagarPasaje, RecargarSaldo};
+    saldo: 0 .. 100;
+    recarga: 0 .. 10;
+    solicitarRecarga: boolean;
+    paseActivo: boolean;
+ASSIGN
+    init(state) := Inactivo;
+    init(saldo) := 50;
+    init(recarga) := 0;
+    init(solicitarRecarga) := TRUE;
+    init(paseActivo) := FALSE;
+    next(state) := case
+        state = Inactivo & paseActivo = TRUE : Activo;
+        state = Inactivo & paseActivo = FALSE : Inactivo;
+        state = Activo & saldo >= 1 : PagarPasaje;
+        state = Activo & solicitarRecarga = TRUE : RecargarSaldo;
+        state = PagarPasaje : Activo;
+        state = RecargarSaldo : Activo;
+        TRUE : state;
+    esac;
+    next(saldo) := case
+        state = PagarPasaje & saldo > 0 : saldo - 1;
+        state = RecargarSaldo & saldo + recarga <= 1000 : saldo + recarga;
+    TRUE : saldo;
+    esac;
+    next(recarga) := case
+        state = RecargarSaldo : 10;
+        TRUE : 0;
+    esac;
+    next(solicitarRecarga) := TRUE;
+    next(paseActivo) := case
+        state = Inactivo : TRUE;
+        TRUE : FALSE;
+    esac;
